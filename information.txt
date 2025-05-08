@@ -1,0 +1,11 @@
+How to create your AVATAR? 
+
+1. Type ready player me on chrome 
+2. Font click on the main link, instead click on "Create a AVATAR"
+3. In this way account creation won't be required 
+4. Create the avatar 
+5. Click next 
+6. Copy the link generated 
+7. Open a new tab, LINK + ?morphTargets=ARKit,Oculus%20Visemes&lod=1 will give you a morph 
+8. What is morph?
+    Will be required for Lip Sync

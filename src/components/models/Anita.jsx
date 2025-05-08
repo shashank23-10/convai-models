@@ -4,7 +4,7 @@ import { useRPMLipsync } from '../../hooks/useRPMLipsync';
 import { useHeadTracking } from '../../hooks/useHeadTracking';
 
 export function Anita(props) {
-  const { nodes, materials, scene } = useGLTF('/models/mukesh.glb');
+  const { nodes, materials, scene } = useGLTF('/models/final-morph.glb');
   const { animations } = useGLTF('/animations/animations.glb');
   const anitaRef = useRef();
   const { actions, mixer } = useAnimations(animations, anitaRef);
@@ -59,5 +59,5 @@ export function Anita(props) {
   );
 }
 
-useGLTF.preload('/models/mukesh.glb');
+useGLTF.preload('/models/final-morph.glb');
 useGLTF.preload('/animations/animations.glb');

@@ -11,8 +11,6 @@ function App() {
     const convaiApiKey = 'b65a98cf5bcbb936885d633be5317c85';
     const characterId = '07c186d4-2b28-11f0-999a-42010a7be01d';
 
-    
-
   const { client } = useConvaiClient(characterId, convaiApiKey);
   return (
     <>
@@ -31,8 +29,8 @@ function App() {
         <Canvas
           shadows
           camera={{
-            position: [0, 0.8, 3],
-            fov: 75,
+            position: [0, 0.1, 1],
+            fov: 25,
           }}
         >
           <Experience client={client} />
