@@ -26,15 +26,30 @@ function App() {
       >
         <Loader />
         {/* <Leva /> */}
-        <Canvas
-          shadows
-          camera={{
-            position: [0, 0.1, 1],
-            fov: 25,
+        <div className="avatar-container"
+          style={{
+            width: '25vw',
+            height: '60vh',
+            border: '2px solid #ccc',
+            margin: '20px auto',
+            borderRadius: '10px',
+            overflow: 'hidden',
           }}
         >
-          <Experience client={client} />
-        </Canvas>
+          <Canvas
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+            shadows
+            camera={{
+              position: [0, 0.1, 1],
+              fov: 25,
+            }}
+          >
+            <Experience client={client} />
+          </Canvas>
+        </div>
       </KeyboardControls>
       {/* {
       client && */}
