@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Experience } from './components/Experience';
 import { KeyboardControls, Loader } from '@react-three/drei';
@@ -8,10 +9,29 @@ function App() {
   /**
    * Add apikey and character id here
    */
-    const convaiApiKey = 'b65a98cf5bcbb936885d633be5317c85';
-    const characterId = '07c186d4-2b28-11f0-999a-42010a7be01d';
+  const convaiApiKey = '40fb8118ec1dbc8b4b76a13208efdd0d';
+  const characterId = 'ad24dcfc-2f15-11f0-b949-42010a7be01f';
 
   const { client } = useConvaiClient(characterId, convaiApiKey);
+
+  // Prevent double-click from triggering pointer lock
+  useEffect(() => {
+    const handlePointerLock = (e) => {
+      e.preventDefault();
+    };
+
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.addEventListener('dblclick', handlePointerLock);
+    }
+
+    return () => {
+      if (canvas) {
+        canvas.removeEventListener('dblclick', handlePointerLock);
+      }
+    };
+  }, []);
+
   return (
     <>
       <KeyboardControls
@@ -25,8 +45,8 @@ function App() {
         ]}
       >
         <Loader />
-        {/* <Leva /> */}
-        <div className="avatar-container"
+        <div
+          className="avatar-container"
           style={{
             width: '25vw',
             height: '60vh',
@@ -37,10 +57,10 @@ function App() {
           }}
         >
           <Canvas
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
             shadows
             camera={{
               position: [0, 0.1, 1],
@@ -51,10 +71,8 @@ function App() {
           </Canvas>
         </div>
       </KeyboardControls>
-      {/* {
-      client && */}
+
       <ChatBubble client={client} />
-      {/* } */}
     </>
   );
 }

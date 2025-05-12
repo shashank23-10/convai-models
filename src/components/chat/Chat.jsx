@@ -6,7 +6,7 @@ import reset from "../../assets/reset.png";
 import "../../index.css";
 
 const ChatBubble = (props) => {
-  const { chatHistory, client  } = props;
+  const { chatHistory, client } = props;
   const [isHovered, setIsHovered] = useState(false);
   const [history, setHistory] = useState(1);
   const [session, setSession] = useState("-1");
@@ -14,29 +14,28 @@ const ChatBubble = (props) => {
   const [errorResponse, setErrorResponse] = useState(false);
   const timer = useRef(null);
   const errorMessage = " Error in retrieving response. Please reset session.";
-  //Toggle History panel
+
   const showHistory = () => {
     setHistory(!history);
   };
 
-  //Takes User text from the textBox
   const userInput = (text) => {
     client?.setUserText(text);
   };
 
-  //Reset Session
   const ResetHistory = () => {
     const storedData = localStorage.getItem("messages");
     if (storedData) {
-      // Parse the retrieved data from JSON format
-      const parsedData = JSON.parse(storedData);
-      // Update the messages for the current character ID in the stored data
-      parsedData[client?.characterId] = {
-        sessionID: -1,
-        message: [""],
-      };
-      // Update the stored data in localStorage
-      localStorage.setItem("messages", JSON.stringify(parsedData));
+      try {
+        const parsedData = JSON.parse(storedData);
+        parsedData[client?.characterId] = {
+          sessionID: -1,
+          message: JSON.stringify([]),
+        };
+        localStorage.setItem("messages", JSON.stringify(parsedData));
+      } catch (err) {
+        localStorage.removeItem("messages");
+      }
     }
     if (client?.convaiClient?.current) {
       client?.convaiClient.current.resetSession();
@@ -47,50 +46,50 @@ const ChatBubble = (props) => {
     client?.setNpcText("");
   };
 
-  //Retrieve Latest chat history of a particular character
   useEffect(() => {
-    // Retrieve stored data from localStorage
     const storedData = localStorage.getItem("messages");
 
     if (client?.characterId) {
       if (storedData) {
-        // Parse the retrieved data from JSON format
-        const parsedData = JSON.parse(storedData);
+        try {
+          const parsedData = JSON.parse(storedData);
+          const characterIDs = Object.keys(parsedData);
 
-        const characterIDs = Object.keys(parsedData);
+          if (characterIDs.includes(client.characterId)) {
+            const parsedSessionID = parsedData[client.characterId].sessionID;
+            if (parsedSessionID !== undefined && parsedSessionID !== null) {
+              setSession(parsedSessionID);
+            }
 
-        // Check if character ID matches the stored character ID
-        if (characterIDs.includes(client?.characterId)) {
-          // Retrieve the sessionID for the current character ID
-          const parsedSessionID = parsedData[client?.characterId].sessionID;
-          if (parsedSessionID) {
-            // Update the sessionID state
-            setSession(parsedSessionID);
+            const parsedMessage = parsedData[client.characterId].message;
+            if (parsedMessage) {
+              try {
+                const storedMessages = JSON.parse(parsedMessage);
+                setMessages(storedMessages);
+              } catch (err) {
+                console.warn("Corrupted message data, resetting messages.");
+                setMessages([]);
+              }
+            } else {
+              setMessages([]);
+            }
+          } else {
+            setMessages([]);
           }
-
-          // Retrieve the messages for the current character ID
-          const parsedMessage = parsedData[client?.characterId].message;
-          if (parsedMessage) {
-            const storedMessages = JSON.parse(parsedMessage);
-
-            // Update the messages state
-            setMessages(storedMessages);
-          }
-        } else {
-          // No stored messages for the current character ID
+        } catch (err) {
+          console.warn("Corrupted localStorage. Clearing.");
+          localStorage.removeItem("messages");
+          setSession("-1");
           setMessages([]);
         }
       } else {
-        // No stored data
         setSession("-1");
         setMessages([]);
       }
     }
   }, [client?.characterId]);
 
-  //Store latest User and Npc Messages into the chat history
   useEffect(() => {
-    //Used to set the session Id on the 1st interaction
     if (
       client?.convaiClient?.current &&
       session === "-1" &&
@@ -103,18 +102,18 @@ const ChatBubble = (props) => {
       const storedData = localStorage.getItem("messages");
 
       if (storedData) {
-        // Parse the retrieved data from JSON format
-        const parsedData = JSON.parse(storedData);
-
-        // Update the messages for the current character ID in the stored data
-        parsedData[client.characterId] = {
-          sessionID: session,
-          message: messagesJSON,
-        };
-        // Update the stored data in localStorage
-        localStorage.setItem("messages", JSON.stringify(parsedData));
+        try {
+          const parsedData = JSON.parse(storedData);
+          parsedData[client.characterId] = {
+            sessionID: session,
+            message: messagesJSON,
+          };
+          localStorage.setItem("messages", JSON.stringify(parsedData));
+        } catch (err) {
+          console.warn("Corrupted messages on save. Resetting.");
+          localStorage.removeItem("messages");
+        }
       } else {
-        // No stored data, create a new entry for the current character ID
         const messagesData = {
           [client.characterId]: {
             sessionID: session,
@@ -126,7 +125,6 @@ const ChatBubble = (props) => {
     }
   }, [client?.characterId, messages, session]);
 
-  // Stores User message
   useEffect(() => {
     const newMessage = {
       sender: "user",
@@ -141,7 +139,6 @@ const ChatBubble = (props) => {
     }
   }, [client?.userEndOfResponse, client?.userText]);
 
-  // Stores Npc's message
   useEffect(() => {
     if (errorResponse && !client?.npcText) {
       client.npcText = errorMessage;
@@ -201,7 +198,7 @@ const ChatBubble = (props) => {
               height="20vw"
               width="20vw"
               alt="reset chat"
-            ></img>
+            />
           </div>
           <div
             style={{
@@ -217,6 +214,7 @@ const ChatBubble = (props) => {
           </div>
         </div>
       </div>
+
       {chatHistory === "Show" && (
         <ChatHistory
           history={history}
@@ -224,14 +222,15 @@ const ChatBubble = (props) => {
           showHistory={showHistory}
           npcName={client?.npcName ? client.npcName : "Npc"}
           userName={client?.userName ? client.userName : "User"}
-        ></ChatHistory>
+        />
       )}
+
       <ChatBubblev1
         npcText={client?.npcText}
         userText={client?.userText}
         messages={messages}
         keyPressed={client?.keyPressed}
-      ></ChatBubblev1>
+      />
     </section>
   );
 };
