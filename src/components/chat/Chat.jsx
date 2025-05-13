@@ -178,8 +178,7 @@ const ChatBubble = (props) => {
             display: "flex",
             justifyContent: "center",
             cursor: "pointer",
-            marginTop: "64px",
-            marginBottom: "33vh",
+            marginBottom: "1vh",
           }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}

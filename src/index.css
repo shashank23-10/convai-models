@@ -22,11 +22,9 @@ body {
 
 
 .chat-Historyo {
-  padding: 0.2vw;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 2%;
-  width: 30vw;
-  height: 31vh;
+  width: 32vw;
+  height: 37vh;
+  overflow: auto;
 }
 /* ::placeholder {
   color: white;
@@ -129,10 +127,11 @@ span {
   }
 }
 .ChatBubble {
-  position: absolute;
-  top: 1vh;
-  left: 1vw;
-  z-index: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    z-index: 5;       /* optional, keeps it above background */
 }
 
 @keyframes pulse {

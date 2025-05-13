@@ -19,11 +19,8 @@ const ChatHistory = (props) => {
           className="container-chat1"
           style={{
             width: "95%",
-            height: "80%",
-            overflow: "auto",
-            marginBottom: "15px",
-            marginTop: "15px",
-            marginLeft: "20px",
+            height: "90%",
+            overflowX: "hidden",
             textAlign: "left",
             display: "flex",
             flexDirection: "column",
@@ -48,7 +45,7 @@ const ChatHistory = (props) => {
               <section key={idx}>
                 {message.sender === "user" && isNextMessageNpc && history
                   ? message.content && (
-                      <div style={{ marginBottom: "2px" }}>
+                      <div style={{ marginBottom: "2px", backgroundColor: "rgba(146, 22, 22, 0.7)", padding: "1rem", borderRadius: "0.8rem" }}>
                         <span
                           style={{
                             color: "rgba(243,167,158,255)",
@@ -68,6 +65,8 @@ const ChatHistory = (props) => {
                           display: "flex",
                           justifyContent: "space-between",
                           marginBottom: "15px",
+                          backgroundColor: "rgba(37, 158, 98, 0.7)", 
+                          padding: "1rem", borderRadius: "0.8rem" 
                         }}
                       >
                         <div>

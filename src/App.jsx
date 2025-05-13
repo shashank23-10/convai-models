@@ -44,7 +44,7 @@ export default function App() {
           <div style={styles.panel}>
             {/* Header */}
             <div style={styles.header}>
-              <span>Chatbot Avatar</span>
+              <span>Chatbot</span>
               <button
                 onClick={() => setPanelOpen(false)}
                 style={styles.closeBtn}
@@ -71,7 +71,7 @@ export default function App() {
                   <Canvas
                     style={{ width: "100%", height: "100%" }}
                     shadows
-                    camera={{ position: [0, 0.02, 0.8], fov: 20 }}
+                    camera={{ position: [0, 0.02, 0.8], fov: 15 }}
                   >
                     <Experience client={client} />
                   </Canvas>
@@ -176,7 +176,7 @@ const styles = {
   },
   talkHint: {
     position: "absolute",
-    top: 0,
+    bottom: 0,
     width: "100%",
     textAlign: "center",
     fontSize: "0.9rem",
@@ -194,7 +194,9 @@ const styles = {
     animation: "pulse 1s infinite",
   },
   chatContainer: {
-    flex: 0.8,      /* control the chat height */
+    flex: 1.6,      /* control the chat height */
     overflowY: "auto",
+    padding: "8px",
+    background: "#fafafa",
   },
 };
