@@ -27,7 +27,8 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
             flexDirection: "column",
           }}
         >
-          {messages?.map((message, idx) => {
+        {messages?.length > 0 ? (
+          messages.map((message, idx) => {
             const next = messages[idx + 1];
             const showUser = message.sender === "user" &&
               (!next || next.sender === "npc") &&
@@ -80,19 +81,17 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
               >
                 {showUser && (
                   <>
-                    {/* User Message Bubble */}
                     <div
                       style={{
                         backgroundColor: "rgba(146,22,22,0.7)",
                         padding: "12px",
                         borderRadius: "8px",
-                        width: "80%",             // ← fixed width
+                        width: "80%",
                         minWidth: "80%",
                       }}
                     >
                       <p style={messageTextStyle}>{message.content}</p>
                     </div>
-                    {/* User Icon */}
                     <PermIdentityTwoToneIcon
                       style={{
                         color: "rgba(146,22,22,0.7)",
@@ -108,7 +107,6 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
 
                 {showNpc && (
                   <>
-                    {/* NPC Icon */}
                     <SmartToyTwoToneIcon
                       style={{
                         color: "rgba(37,158,98,0.7)",
@@ -119,25 +117,45 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
                         flexShrink: 0,
                       }}
                     />
-                    {/* NPC Message Bubble */}
                     <div
                       style={{
                         backgroundColor: "rgba(37,158,98,0.7)",
                         padding: "12px",
                         borderRadius: "8px",
-                        width: "80%",            // ← fixed width
+                        width: "80%",
                         minWidth: "80%",
                       }}
                     >
                       <p style={messageTextStyle}>{message.content}</p>
                     </div>
-                    {/* Feedback */}
                     {FeedbackIcons}
                   </>
                 )}
               </div>
             );
-          })}
+          })
+        ) : (
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                color: "#999",
+                textAlign: "center",
+                fontStyle: "italic",
+                fontSize: "16px",
+              }}
+            >
+              Your conversations will appear here
+            </div>
+          </div>
+        )}
+
         </div>
       </div>
     </section>

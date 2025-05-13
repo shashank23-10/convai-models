@@ -1,144 +1,142 @@
-// src/App.jsx
 import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { KeyboardControls, Loader } from "@react-three/drei";
 import { useConvaiClient } from "./hooks/useConvaiClient";
 import { Experience } from "./components/Experience";
 import ChatBubble from "./components/chat/Chat";
-import chatIcon from "./assets/chatIcon.jpg";     
-import { FaMicrophone } from "react-icons/fa";           
+import { FaMicrophone } from "react-icons/fa";
+import CloseIcon from '@mui/icons-material/Close';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
 export default function App() {
   const convaiApiKey = "40fb8118ec1dbc8b4b76a13208efdd0d";
-  const characterId  = "ad24dcfc-2f15-11f0-b949-42010a7be01f";
-  const { client }   = useConvaiClient(characterId, convaiApiKey);
+  const characterId = "ad24dcfc-2f15-11f0-b949-42010a7be01f";
+  const { client } = useConvaiClient(characterId, convaiApiKey);
 
   const [panelOpen, setPanelOpen] = useState(true);
   const [listening, setListening] = useState(false);
 
-  // listen for T key down/up
   useEffect(() => {
     const down = (e) => {
-      if (e.key === "t" || e.key === "T") {
-        setListening(true);
-      }
+      if (e.key === "t" || e.key === "T") setListening(true);
     };
     const up = (e) => {
-      if (e.key === "t" || e.key === "T") {
-        setListening(false);
-      }
+      if (e.key === "t" || e.key === "T") setListening(false);
     };
     window.addEventListener("keydown", down);
-    window.addEventListener("keyup",   up);
+    window.addEventListener("keyup", up);
     return () => {
       window.removeEventListener("keydown", down);
-      window.removeEventListener("keyup",   up);
+      window.removeEventListener("keyup", up);
     };
   }, []);
 
-
   return (
     <>
-      {panelOpen ? (
-        <div style={styles.panelContainer}>
-          <div style={styles.panel}>
-            {/* Header */}
-            <div style={styles.header}>
-              <span>Chatbot</span>
-              <button
-                onClick={() => setPanelOpen(false)}
-                style={styles.closeBtn}
-              >
-                Close
-              </button>
-            </div>
+      {/* Always-visible Open Button */}
+      <div style={styles.openBtn} onClick={() => setPanelOpen(true)}>
+        <InsertCommentIcon
+          style={{
+            width: "50%",
+            height: "50%",
+            padding: "12px",
+            border: "2px solid #e8b403",
+            borderRadius: "50%",
+            color: "#e8b403",
+          }}
+        />
+      </div>
 
-            {/* Body: Avatar + Chat */}
-            <KeyboardControls
-              map={[
-                { name: "forward",  keys: ["ArrowUp", "w", "W"] },
-                { name: "backward", keys: ["ArrowDown", "s", "S"] },
-                { name: "left",     keys: ["ArrowLeft", "a", "A"] },
-                { name: "right",    keys: ["ArrowRight", "d", "D"] },
-                { name: "sprint",   keys: ["Shift"] },
-                { name: "jump",     keys: ["Space"] },
-              ]}
-            >
-              <div style={styles.body}>
-                {/* 3D Canvas */}
-                <div style={styles.avatarContainer}>
-                  <Loader/> 
-                  <Canvas
-                    style={{ width: "100%", height: "100%" }}
-                    shadows
-                    camera={{ position: [0, 0.02, 0.8], fov: 15 }}
-                  >
-                    <Experience client={client} />
-                  </Canvas>
-                  <div style={styles.talkHint}>
-                    {listening ? (
-                      <>
-                        <FaMicrophone style={styles.micActive} />
-                        <span style={{ marginLeft: 8 }}>Listening</span>
-                      </>
-                    ) : (
-                      <>
-                        <FaMicrophone style={styles.micInActive} />
-                        <span style={{ marginLeft: 8 }}>Press <strong>[T]</strong> to talk</span>
-                      </>
-                    )}
-                  </div>
-                </div>
+      {/* Chat Panel */}
+      <div
+        style={{
+          ...styles.panelContainer,
+          display: panelOpen ? "flex" : "none",
+        }}
+      >
+        <div style={styles.panel}>
+          {/* Header */}
+          <div style={styles.header}>
+            <span>Chatbot</span>
+            <button onClick={() => setPanelOpen(false)} style={styles.closeBtn}>
+              <CloseIcon />
+            </button>
+          </div>
 
-                {/* Chat Bubble under Avatar */}
-                <div style={styles.chatContainer}>
-                  <ChatBubble client={client} chatHistory="Show" />
+          {/* Body */}
+          <KeyboardControls
+            map={[
+              { name: "forward", keys: ["ArrowUp", "w", "W"] },
+              { name: "backward", keys: ["ArrowDown", "s", "S"] },
+              { name: "left", keys: ["ArrowLeft", "a", "A"] },
+              { name: "right", keys: ["ArrowRight", "d", "D"] },
+              { name: "sprint", keys: ["Shift"] },
+              { name: "jump", keys: ["Space"] },
+            ]}
+          >
+            <div style={styles.body}>
+              {/* 3D Canvas */}
+              <div style={styles.avatarContainer}>
+                <Loader />
+                <Canvas
+                  style={{ width: "100%", height: "100%" }}
+                  shadows
+                  camera={{ position: [0, 0.02, 0.8], fov: 15 }}
+                >
+                  <Experience client={client} />
+                </Canvas>
+                <div style={styles.talkHint}>
+                  {listening ? (
+                    <>
+                      <FaMicrophone style={styles.micActive} />
+                      <span style={{ marginLeft: 8 }}>Listening</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaMicrophone style={styles.micInActive} />
+                      <span style={{ marginLeft: 8 }}>
+                        Press <strong>[T]</strong> to talk
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
-            </KeyboardControls>
-          </div>
+
+              {/* Chat Box */}
+              <div style={styles.chatContainer}>
+                <ChatBubble client={client} chatHistory="Show" />
+              </div>
+            </div>
+          </KeyboardControls>
         </div>
-      ) : (
-        <div
-          style={styles.openBtn}
-          onClick={() => setPanelOpen(true)}
-        >
-          <img
-            src={chatIcon}
-            alt="Open Chatbot"
-            style={{ width: "100%", height: "100%", border: "2px solid ", borderRadius: "50%",  }}
-          />
-        </div>
-      )}
+      </div>
     </>
   );
 }
 
 const styles = {
-  panelContainer:{
+  panelContainer: {
     position: "fixed",
-    right: 20,
-    bottom: 20,
-    border: " 10px solid #000",
-    padding:"2px"
+    right: 25,
+    bottom: 75,
+    border: "4px solid #e8b403",
+    zIndex: 1000,
   },
   panel: {
     width: "32vw",
     height: "80vh",
     background: "#fff",
     border: "1px solid #ccc",
-    borderRadius: 8,
     boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
-    zIndex: 1000,
   },
   header: {
     zIndex: 2,
     flexShrink: 0,
     padding: "8px 12px",
-    background: "#f5f5f5",
+    background: "#e8b403",
     borderBottom: "1px solid #ddd",
     display: "flex",
     justifyContent: "space-between",
@@ -162,7 +160,7 @@ const styles = {
     background: "transparent",
     borderRadius: 24,
     cursor: "pointer",
-    zIndex: 1000,
+    zIndex: 1100,
   },
   body: {
     flex: 1,
@@ -194,7 +192,7 @@ const styles = {
     animation: "pulse 1s infinite",
   },
   chatContainer: {
-    flex: 1.6,      /* control the chat height */
+    flex: 1.6,
     overflowY: "auto",
     overflowX: "hidden",
     paddingLeft: "8px",

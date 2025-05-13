@@ -24,7 +24,8 @@ body {
 .chat-Historyo {
   width: 34vw;
   height: 37vh;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 /* ::placeholder {
   color: white;
