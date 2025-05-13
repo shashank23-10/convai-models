@@ -1,17 +1,18 @@
-import React from "react";
-import { useState } from "react";
-//import logo from "../../assets/ConvaiLogo.png";
-import "../../index.css";
+// src/components/chat/ChatHistory.jsx
+import React, { useState } from "react";
+import SmartToyTwoToneIcon from '@mui/icons-material/SmartToyTwoTone';
+import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
 import ThumbsUp_fill from "../../assets/Thumbsup_fill.png";
 import Thumbsdown_fill from "../../assets/Thumbsdown_fill.png";
 import Thumbsup_outline from "../../assets/Thumbsup_outline.png";
 import Thumbsdownoutline from "../../assets/Thumbsdownoutline.png";
-import { PiClockClockwiseBold } from "react-icons/pi";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import "../../index.css";
 
-const ChatHistory = (props) => {
-  const { history, showHistory, messages, npcName, userName } = props;
-  const [feedbacks, setFeedbacks] = useState(Array(messages?.length).fill(0));
+const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }) => {
+  const [feedbacks, setFeedbacks] = useState(
+    () => Array(messages?.length || 0).fill(0)
+  );
+
   return (
     <section>
       <div className="chat-Historyo">
@@ -27,64 +28,114 @@ const ChatHistory = (props) => {
           }}
         >
           {messages?.map((message, idx) => {
+            const next = messages[idx + 1];
+            const showUser = message.sender === "user" &&
+              (!next || next.sender === "npc") &&
+              history;
+            const showNpc = message.sender === "npc" &&
+              (!next || next.sender === "user") &&
+              history;
 
-            const isUserMessage = message.sender === "user";
-            const nextMessage = messages[idx + 1];
-            const isNextMessageUser =
-              !nextMessage || nextMessage.sender === "user";
-            const isNextMessageNpc =
-              !nextMessage || nextMessage.sender === "npc";
-
-            const messageStyle = {
+            const messageTextStyle = {
               color: "#FFFFFF",
-              paddingLeft: "10px",
-              // marginBottom: isNextMessageUser ? "0px" : 0,
+              margin: 0,
             };
 
+            const FeedbackIcons = (
+              <div style={{ display: "flex", gap: "12px", marginLeft: 12 }}>
+                <img
+                  src={feedbacks[idx] === 1 ? ThumbsUp_fill : Thumbsup_outline}
+                  alt="thumbs up"
+                  height={17}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    const fb = [...feedbacks];
+                    fb[idx] = fb[idx] === 1 ? 0 : 1;
+                    setFeedbacks(fb);
+                  }}
+                />
+                <img
+                  src={feedbacks[idx] === 2 ? Thumbsdown_fill : Thumbsdownoutline}
+                  alt="thumbs down"
+                  height={17}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    const fb = [...feedbacks];
+                    fb[idx] = fb[idx] === 2 ? 0 : 2;
+                    setFeedbacks(fb);
+                  }}
+                />
+              </div>
+            );
+
             return (
-              <section key={idx}>
-                {message.sender === "user" && isNextMessageNpc && history
-                  ? message.content && (
-                      <div style={{ marginBottom: "2px", backgroundColor: "rgba(146, 22, 22, 0.7)", padding: "1rem", borderRadius: "0.8rem" }}>
-                        <span
-                          style={{
-                            color: "rgba(243,167,158,255)",
-                            marginRight: "-5px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {userName}:
-                        </span>
-                        <span style={messageStyle}>{message.content}</span>
-                      </div>
-                    )
-                  : message.sender === "npc" && isNextMessageUser && history
-                  ? message.content && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          marginBottom: "15px",
-                          backgroundColor: "rgba(37, 158, 98, 0.7)", 
-                          padding: "1rem", borderRadius: "0.8rem" 
-                        }}
-                      >
-                        <div>
-                          <span
-                            style={{
-                              color: "rgba(127,210,118,255)",
-                              marginRight: "-10px",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Avatar:
-                          </span>
-                          <span style={messageStyle}>{message.content}</span>
-                        </div>
-                      </div>
-                    )
-                  : ""}
-              </section>
+              <div
+                key={idx}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  marginBottom: "12px",
+                  gap: "8px",
+                }}
+              >
+                {showUser && (
+                  <>
+                    {/* User Message Bubble */}
+                    <div
+                      style={{
+                        backgroundColor: "rgba(146,22,22,0.7)",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        width: "80%",             // ← fixed width
+                        minWidth: "80%",
+                      }}
+                    >
+                      <p style={messageTextStyle}>{message.content}</p>
+                    </div>
+                    {/* User Icon */}
+                    <PermIdentityTwoToneIcon
+                      style={{
+                        color: "rgba(146,22,22,0.7)",
+                        border: "2px solid rgba(146,22,22,0.7)",
+                        padding: 4,
+                        borderRadius: "50%",
+                        fontSize: "24px",
+                        flexShrink: 0,
+                      }}
+                    />
+                  </>
+                )}
+
+                {showNpc && (
+                  <>
+                    {/* NPC Icon */}
+                    <SmartToyTwoToneIcon
+                      style={{
+                        color: "rgba(37,158,98,0.7)",
+                        border: "2px solid rgba(37,158,98,0.7)",
+                        padding: 4,
+                        borderRadius: "50%",
+                        fontSize: "24px",
+                        flexShrink: 0,
+                      }}
+                    />
+                    {/* NPC Message Bubble */}
+                    <div
+                      style={{
+                        backgroundColor: "rgba(37,158,98,0.7)",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        width: "80%",            // ← fixed width
+                        minWidth: "80%",
+                      }}
+                    >
+                      <p style={messageTextStyle}>{message.content}</p>
+                    </div>
+                    {/* Feedback */}
+                    {FeedbackIcons}
+                  </>
+                )}
+              </div>
             );
           })}
         </div>

@@ -196,7 +196,8 @@ const styles = {
   chatContainer: {
     flex: 1.6,      /* control the chat height */
     overflowY: "auto",
-    padding: "8px",
+    overflowX: "hidden",
+    paddingLeft: "8px",
     background: "#fafafa",
   },
 };
