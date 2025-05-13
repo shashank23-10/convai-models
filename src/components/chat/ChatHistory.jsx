@@ -19,7 +19,7 @@ const ChatHistory = (props) => {
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            position:"relative"
+            position:"relative",
           }}
         >
      
@@ -43,8 +43,8 @@ const ChatHistory = (props) => {
               color: "white",
               position: "absolute",
               left: "0.3vw",
-              top: "3.5vw",
-              fontSize: "1.7vw",
+              top: "17.5vw",
+              fontSize: "2vw",
               cursor: "pointer",
             }}
           ></PiClockClockwiseBold>
@@ -55,7 +55,7 @@ const ChatHistory = (props) => {
               color: "white",
               position: "absolute",
               left: "0.3vw",
-              top: "3.5vw",
+              top: "17.5vw",
               fontSize: "2vw",
               cursor: "pointer",
             }}
@@ -124,7 +124,7 @@ const ChatHistory = (props) => {
                               fontWeight: "bold",
                             }}
                           >
-                            {npcName}:
+                            Avatar:
                           </span>
                           <span style={messageStyle}>{message.content}</span>
                         </div>

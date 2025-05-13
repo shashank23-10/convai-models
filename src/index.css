@@ -22,8 +22,8 @@ body {
 
 .chat-Historyc {
   background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 20%;
-  width: 3.5vw;
+  border-radius: 2%;
+  width: 30vw;
   height: 3.5vw;
 }
 
@@ -31,7 +31,7 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 4%;
   width: 30vw;
-  height: 45vh;
+  height: 40vh;
 }
 /* ::placeholder {
   color: white;

@@ -149,7 +149,7 @@ const ChatBubblev1 = (props) => {
             <img
             
             loading="lazy"
-            src={logo} height="30px" width="100px" alt="Convai chat logo"></img>
+            src={logo} height="10px" width="80px" alt="Convai chat logo"></img>
           </div>
         </section>
       </section>
