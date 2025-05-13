@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import logo from "../../assets/ConvaiLogo.png";
+//import logo from "../../assets/ConvaiLogo.png";
 import "../../index.css";
 import ThumbsUp_fill from "../../assets/Thumbsup_fill.png";
 import Thumbsdown_fill from "../../assets/Thumbsdown_fill.png";
@@ -14,53 +14,7 @@ const ChatHistory = (props) => {
   const [feedbacks, setFeedbacks] = useState(Array(messages?.length).fill(0));
   return (
     <section>
-      <div className={history ? "chat-Historyo" : "chat-Historyc"}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            position:"relative",
-          }}
-        >
-     
-          {history ? (
-            <img
-            loading="lazy"
-              style={{ paddingRight: "20px", marginTop: "0.9vh" }}
-              src={logo}
-              height="30px"
-              width="100px"
-              alt="convai chat history logo"
-            ></img>
-          ) : (
-            ""
-          )}
-        </div>
-        {!history ? (
-          <PiClockClockwiseBold
-            onClick={showHistory}
-            style={{
-              color: "white",
-              position: "absolute",
-              left: "0.3vw",
-              top: "17.5vw",
-              fontSize: "2vw",
-              cursor: "pointer",
-            }}
-          ></PiClockClockwiseBold>
-        ) : (
-          <MdKeyboardDoubleArrowLeft
-            onClick={showHistory}
-            style={{
-              color: "white",
-              position: "absolute",
-              left: "0.3vw",
-              top: "17.5vw",
-              fontSize: "2vw",
-              cursor: "pointer",
-            }}
-          ></MdKeyboardDoubleArrowLeft>
-        )}
+      <div className="chat-Historyo">
         <div
           className="container-chat1"
           style={{
@@ -127,46 +81,6 @@ const ChatHistory = (props) => {
                             Avatar:
                           </span>
                           <span style={messageStyle}>{message.content}</span>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            marginLeft: "7px",
-                            marginRight: "20px",
-                          }}
-                        >
-                          <img
-            loading="lazy"
-            
-                            style={{ paddingRight: "10px" }}
-                            src={
-                              feedbacks[idx] === 1
-                                ?  ThumbsUp_fill 
-                                :  Thumbsup_outline 
-                            }
-                            alt="convai chat history feedback filled"
-                            height="17px"
-                            onClick={() => {
-                              const newFeedbacks = [...feedbacks];
-                              newFeedbacks[idx] = feedbacks[idx] === 1 ? 0 : 1;
-                              setFeedbacks(newFeedbacks);
-                            }}
-                          ></img>
-                          <img
-            loading="lazy"
-                            src={
-                              feedbacks[idx] === 2
-                                ?  Thumbsdown_fill 
-                                :  Thumbsdownoutline 
-                            }
-                            alt="convai chat history filled"
-                            height="17px"
-                            onClick={() => {
-                              const newFeedbacks = [...feedbacks];
-                              newFeedbacks[idx] = feedbacks[idx] === 2 ? 0 : 2;
-                              setFeedbacks(newFeedbacks);
-                            }}
-                          ></img>
                         </div>
                       </div>
                     )
