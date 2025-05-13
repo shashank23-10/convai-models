@@ -3,7 +3,6 @@ import {
   Grid,
   OrbitControls,
   Sky,
-  Stats,
 } from '@react-three/drei';
 import { Suspense, useEffect, useState } from 'react';
 import { CuboidCollider, Physics, RigidBody } from '@react-three/rapier';
@@ -33,7 +32,6 @@ export const Experience = ({ client }) => {
       />
 
       {/* models */}
-      <Stats />
       <Suspense>
         <Physics gravity={gravity}>
           <ConvaiFPS />
