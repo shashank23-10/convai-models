@@ -22,10 +22,10 @@ body {
 
 
 .chat-Historyo {
-  width: 34vw;
+  width: 90%;
   height: 37vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  padding: 0 1rem;
 }
 /* ::placeholder {
   color: white;

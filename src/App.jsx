@@ -54,14 +54,16 @@ export default function App() {
           display: panelOpen ? "flex" : "none",
         }}
       >
-        <div style={styles.panel}>
-          {/* Header */}
-          <div style={styles.header}>
-            <span>Chatbot</span>
-            <button onClick={() => setPanelOpen(false)} style={styles.closeBtn}>
-              <CloseIcon />
-            </button>
-          </div>
+        {/* Header */}
+        <div style={styles.header}>
+          <span>Chatbot</span>
+          <button onClick={() => setPanelOpen(false)} style={styles.closeBtn}>
+            <CloseIcon />
+          </button>
+        </div>
+
+        <div style={styles.panelBody}>
+          <div style={styles.panel}>
 
           {/* Body */}
           <KeyboardControls
@@ -88,7 +90,7 @@ export default function App() {
                 <div style={styles.talkHint}>
                   <div style={{
                     ...styles.talkBox,
-                    backgroundColor: listening ? "#f0f0f0" : "#f0f0f0"
+                    backgroundColor: listening ? "rgba(159, 158, 156, 0.8)" : "rgba(159, 158, 156, 0.6)"
                   }}>
                     <div style={styles.micWrapper}>
                       <FaMicrophone style={listening ? styles.micActive : styles.micInActive} />
@@ -106,6 +108,7 @@ export default function App() {
               </div>
             </div>
           </KeyboardControls>
+          </div>
         </div>
       </div>
     </>
@@ -113,34 +116,48 @@ export default function App() {
 }
 
 const styles = {
-  panelContainer: {
-    position: "fixed",
-    right: 25,
-    bottom: 75,
-    border: "4px solid #e8b403",
-    zIndex: 1000,
-  },
-  panel: {
-    width: "32vw",
-    height: "80vh",
-    background: "#fff",
-    border: "1px solid #ccc",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-    display: "flex",
-    flexDirection: "column",
-    overflow: "hidden",
-  },
-  header: {
-    zIndex: 2,
-    flexShrink: 0,
-    padding: "8px 12px",
-    background: "#e8b403",
-    borderBottom: "1px solid #ddd",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontWeight: "bold",
-  },
+panelContainer: {
+  position: "fixed",
+  right: 25,
+  bottom: 75,
+  border: "4px solid #e8b403",
+  zIndex: 1000,
+  display: "flex",
+  flexDirection: "column",
+  width: "32vw",
+  height: "85vh",
+  background: "#1d2935",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+},
+
+panelBody: {
+  flex: 1,
+  padding: "0.75rem 2rem",
+  background: "black",
+  display: "flex",
+  flexDirection: "column",
+},
+
+panel: {
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  overflow: "hidden",
+  borderTop: "1px solid #ccc",
+  background: "black",
+},
+
+header: {
+  flexShrink: 0,
+  padding: "8px 12px",
+  background: "#e8b403",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  fontWeight: "bold",
+  borderBottom: "1px solid #ddd",
+},
+
   closeBtn: {
     border: "none",
     background: "#e74c3c",
@@ -213,13 +230,11 @@ micActive: {
 
 talkText: {
   fontSize: "0.85rem",
-  color: "#333",
+  color: "#fff",
 },
 chatContainer: {
-    flex: 1.6,
-    overflowY: "auto",
-    overflowX: "hidden",
+    flex: 1.8,
     paddingLeft: "8px",
-    background: "#fafafa",
+    background: "#fafafa", 
   },
 };

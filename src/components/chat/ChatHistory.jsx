@@ -2,10 +2,6 @@
 import React, { useState } from "react";
 import SmartToyTwoToneIcon from '@mui/icons-material/SmartToyTwoTone';
 import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
-import ThumbsUp_fill from "../../assets/Thumbsup_fill.png";
-import Thumbsdown_fill from "../../assets/Thumbsdown_fill.png";
-import Thumbsup_outline from "../../assets/Thumbsup_outline.png";
-import Thumbsdownoutline from "../../assets/Thumbsdownoutline.png";
 import "../../index.css";
 
 const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }) => {
@@ -19,9 +15,9 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
         <div
           className="container-chat1"
           style={{
-            width: "95%",
-            height: "90%",
-            overflowX: "hidden",
+            width: "fit-content",
+            maxWidth: "100%",
+            height: "100%",
             textAlign: "left",
             display: "flex",
             flexDirection: "column",
@@ -42,33 +38,6 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
               margin: 0,
             };
 
-            const FeedbackIcons = (
-              <div style={{ display: "flex", gap: "12px", marginLeft: 12 }}>
-                <img
-                  src={feedbacks[idx] === 1 ? ThumbsUp_fill : Thumbsup_outline}
-                  alt="thumbs up"
-                  height={17}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    const fb = [...feedbacks];
-                    fb[idx] = fb[idx] === 1 ? 0 : 1;
-                    setFeedbacks(fb);
-                  }}
-                />
-                <img
-                  src={feedbacks[idx] === 2 ? Thumbsdown_fill : Thumbsdownoutline}
-                  alt="thumbs down"
-                  height={17}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    const fb = [...feedbacks];
-                    fb[idx] = fb[idx] === 2 ? 0 : 2;
-                    setFeedbacks(fb);
-                  }}
-                />
-              </div>
-            );
-
             return (
               <div
                 key={idx}
@@ -81,17 +50,6 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
               >
                 {showUser && (
                   <>
-                    <div
-                      style={{
-                        backgroundColor: "rgba(146,22,22,0.7)",
-                        padding: "12px",
-                        borderRadius: "8px",
-                        width: "80%",
-                        minWidth: "80%",
-                      }}
-                    >
-                      <p style={messageTextStyle}>{message.content}</p>
-                    </div>
                     <PermIdentityTwoToneIcon
                       style={{
                         color: "rgba(146,22,22,0.7)",
@@ -102,6 +60,18 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
                         flexShrink: 0,
                       }}
                     />
+                    <div
+                      style={{
+                        backgroundColor: "rgba(146,22,22,0.7)",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        width: "fit-content",
+                        maxWidth: "calc(100% - 40px)",  // leaves room for icon + gap
+                        boxSizing: "border-box",
+                      }}
+                    >
+                      <p style={messageTextStyle}>{message.content}</p>
+                    </div>
                   </>
                 )}
 
@@ -122,13 +92,13 @@ const ChatHistory = ({ messages, npcName = "Avatar", userName = "You", history }
                         backgroundColor: "rgba(37,158,98,0.7)",
                         padding: "12px",
                         borderRadius: "8px",
-                        width: "80%",
-                        minWidth: "80%",
+                        width: "fit-content",
+                        maxWidth: "calc(100% - 40px)",  // leaves room for icon + gap
+                        boxSizing: "border-box",
                       }}
                     >
                       <p style={messageTextStyle}>{message.content}</p>
                     </div>
-                    {FeedbackIcons}
                   </>
                 )}
               </div>
