@@ -34,7 +34,7 @@ export default function App() {
   return (
     <>
       {/* Always-visible Open Button */}
-      <div style={styles.openBtn} onClick={() => setPanelOpen(true)}>
+      <div style={styles.openBtn} onClick={() => setPanelOpen(!panelOpen)}>
         <InsertCommentIcon
           style={{
             width: "50%",
