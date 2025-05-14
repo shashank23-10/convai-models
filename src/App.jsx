@@ -86,19 +86,17 @@ export default function App() {
                   <Experience client={client} />
                 </Canvas>
                 <div style={styles.talkHint}>
-                  {listening ? (
-                    <>
-                      <FaMicrophone style={styles.micActive} />
-                      <span style={{ marginLeft: 8 }}>Listening</span>
-                    </>
-                  ) : (
-                    <>
-                      <FaMicrophone style={styles.micInActive} />
-                      <span style={{ marginLeft: 8 }}>
-                        Press <strong>[T]</strong> to talk
-                      </span>
-                    </>
-                  )}
+                  <div style={{
+                    ...styles.talkBox,
+                    backgroundColor: listening ? "#f0f0f0" : "#f0f0f0"
+                  }}>
+                    <div style={styles.micWrapper}>
+                      <FaMicrophone style={listening ? styles.micActive : styles.micInActive} />
+                    </div>
+                    <span style={styles.talkText}>
+                      Press <strong>[T]</strong> to talk
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -172,26 +170,52 @@ const styles = {
     position: "relative",
     borderBottom: "1px solid #eee",
   },
-  talkHint: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    textAlign: "center",
-    fontSize: "0.9rem",
-    background: "rgba(255,255,255,0.7)",
-    padding: "4px 0",
-    color: "#333",
-  },
-  micInActive: {
-    color: "#e74c3c",
-    fontSize: "0.8rem",
-  },
-  micActive: {
-    color: "#e74c3c",
-    fontSize: "0.8rem",
-    animation: "pulse 1s infinite",
-  },
-  chatContainer: {
+talkHint: {
+  position: "absolute",
+  bottom: 12,
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 5,
+},
+
+talkBox: {
+  display: "flex",
+  alignItems: "center",
+  gap: 8,
+  borderRadius: 30,
+  padding: "6px 12px",
+  boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+  transition: "background-color 0.3s ease",
+},
+
+micWrapper: {
+  width: 24,
+  height: 24,
+  borderRadius: "50%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "#e74c3c", // mic background
+},
+
+micInActive: {
+  color: "#fff",
+  fontSize: "14px",
+},
+
+micActive: {
+  color: "#fff",
+  fontSize: "14px",
+  animation: "pulse 1s infinite",
+},
+
+talkText: {
+  fontSize: "0.85rem",
+  color: "#333",
+},
+chatContainer: {
     flex: 1.6,
     overflowY: "auto",
     overflowX: "hidden",

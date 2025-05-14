@@ -172,12 +172,12 @@ const ChatBubble = (props) => {
               ? "rgba(0, 0, 0, 1)"
               : "rgba(0, 0, 0, 0.7)",
             borderRadius: "10px",
-            width: "8vw",
-            height: "2.5vw",
+            padding: "0.25vh 1vw", 
             color: "white",
             display: "flex",
             justifyContent: "center",
             cursor: "pointer",
+            marginTop: "1vh",
             marginBottom: "1vh",
           }}
           onMouseEnter={() => setIsHovered(true)}
@@ -195,8 +195,8 @@ const ChatBubble = (props) => {
             <img
               loading="lazy"
               src={reset}
-              height="20vw"
-              width="20vw"
+              height="10vw"
+              width="10vw"
               alt="reset chat"
             />
           </div>
@@ -210,7 +210,7 @@ const ChatBubble = (props) => {
               fontWeight: "bold",
             }}
           >
-            <p style={{ fontSize: "0.78vw" }}>Reset Session</p>
+            <p style={{ fontSize: "0.58vw" }}>Reset Session</p>
           </div>
         </div>
       </div>
