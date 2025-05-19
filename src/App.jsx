@@ -5,8 +5,9 @@ import { useConvaiClient } from "./hooks/useConvaiClient";
 import { Experience } from "./components/Experience";
 import ChatBubble from "./components/chat/Chat";
 import { FaMicrophone } from "react-icons/fa";
-import CloseIcon from '@mui/icons-material/Close';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import backgroundImg from './assets/background.jpg';
+
 
 export default function App() {
   const convaiApiKey = "40fb8118ec1dbc8b4b76a13208efdd0d";
@@ -32,8 +33,8 @@ export default function App() {
   }, []);
 
   return (
-    <>
-      {/* Always-visible Open Button */}
+    <div style={styles.pageContainer}>
+      {/* Toggle Button */}
       <div style={styles.openBtn} onClick={() => setPanelOpen(!panelOpen)}>
         <InsertCommentIcon
           style={{
@@ -47,127 +48,101 @@ export default function App() {
         />
       </div>
 
-      {/* Chat Panel */}
-      <div
-        style={{
-          ...styles.panelContainer,
-          display: panelOpen ? "flex" : "none",
-        }}
-      >
-        {/* Header */}
-        <div style={styles.header}>
-          <span>Chatbot</span>
-          <button onClick={() => setPanelOpen(false)} style={styles.closeBtn}>
-            <CloseIcon />
-          </button>
-        </div>
-
-        <div style={styles.panelBody}>
-          <div style={styles.panel}>
-
-          {/* Body */}
-          <KeyboardControls
-            map={[
-              { name: "forward", keys: ["ArrowUp", "w", "W"] },
-              { name: "backward", keys: ["ArrowDown", "s", "S"] },
-              { name: "left", keys: ["ArrowLeft", "a", "A"] },
-              { name: "right", keys: ["ArrowRight", "d", "D"] },
-              { name: "sprint", keys: ["Shift"] },
-              { name: "jump", keys: ["Space"] },
-            ]}
-          >
-            <div style={styles.body}>
-              {/* 3D Canvas */}
-              <div style={styles.avatarContainer}>
-                <Loader />
-                <Canvas
-                  style={{ width: "100%", height: "100%" }}
-                  shadows
-                  camera={{ position: [0, 0.02, 0.8], fov: 15 }}
-                >
-                  <Experience client={client} />
-                </Canvas>
-                <div style={styles.talkHint}>
-                  <div style={{
-                    ...styles.talkBox,
-                    backgroundColor: listening ? "rgba(159, 158, 156, 0.8)" : "rgba(159, 158, 156, 0.6)"
-                  }}>
-                    <div style={styles.micWrapper}>
-                      <FaMicrophone style={listening ? styles.micActive : styles.micInActive} />
+      {/* Transparent Chat Panel Body Only */}
+      {panelOpen && (
+        <div style={styles.panelBodyContainer}>
+          <div style={styles.panelBody}>
+            <KeyboardControls
+              map={[
+                { name: "forward", keys: ["ArrowUp", "w", "W"] },
+                { name: "backward", keys: ["ArrowDown", "s", "S"] },
+                { name: "left", keys: ["ArrowLeft", "a", "A"] },
+                { name: "right", keys: ["ArrowRight", "d", "D"] },
+                { name: "sprint", keys: ["Shift"] },
+                { name: "jump", keys: ["Space"] },
+              ]}
+            >
+              <div style={styles.body}>
+                {/* 3D Canvas */}
+                <div style={styles.avatarContainer}>
+                  <Loader />
+                  <Canvas
+                    style={{ width: "100%", height: "100%", background: "transparent" }}
+                    shadows
+                    gl={{ alpha: true }}
+                    camera={{ position: [0, 0.026, 0.8], fov: 10 }}
+                  >
+                    <Experience client={client} />
+                  </Canvas>
+                  <div style={styles.talkHint}>
+                    <div style={{
+                      ...styles.talkBox,
+                      backgroundColor: listening ? "rgba(159, 158, 156, 0.8)" : "rgba(159, 158, 156, 0.6)"
+                    }}>
+                      <div style={styles.micWrapper}>
+                        <FaMicrophone style={listening ? styles.micActive : styles.micInActive} />
+                      </div>
+                      <span style={styles.talkText}>
+                        Press <strong>[T]</strong> to talk
+                      </span>
                     </div>
-                    <span style={styles.talkText}>
-                      Press <strong>[T]</strong> to talk
-                    </span>
                   </div>
                 </div>
-              </div>
 
-              {/* Chat Box */}
-              <div style={styles.chatContainer}>
-                <ChatBubble client={client} chatHistory="Show" />
+                {/* Chat Box Transparent */}
+                <div style={styles.chatContainer}>
+                  <ChatBubble client={client} chatHistory="Show" />
+                </div>
               </div>
-            </div>
-          </KeyboardControls>
+            </KeyboardControls>
           </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }
 
 const styles = {
-panelContainer: {
-  position: "fixed",
-  right: 25,
-  bottom: 75,
-  border: "4px solid #e8b403",
-  zIndex: 1000,
-  display: "flex",
-  flexDirection: "column",
-  width: "32vw",
-  height: "85vh",
-  background: "#1d2935",
-  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-},
-
-panelBody: {
-  flex: 1,
-  padding: "0.75rem 2rem",
-  background: "black",
-  display: "flex",
-  flexDirection: "column",
-},
-
-panel: {
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
-  overflow: "hidden",
-  borderTop: "1px solid #ccc",
-  background: "black",
-},
-
-header: {
-  flexShrink: 0,
-  padding: "8px 12px",
-  background: "#e8b403",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  fontWeight: "bold",
-  borderBottom: "1px solid #ddd",
-},
-
-  closeBtn: {
-    border: "none",
-    background: "#e74c3c",
-    color: "#fff",
-    padding: "4px 8px",
-    borderRadius: 4,
-    cursor: "pointer",
-  },
-  openBtn: {
+  pageContainer: {
     position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+backgroundImage: `url(${backgroundImg})`,
+
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    overflow: "hidden",
+  },
+
+  panelBodyContainer: {
+    position: "absolute",
+    right: 25,
+    bottom: 75,
+    width: "32vw",
+    height: "65vh",
+    background: "transparent",
+    border: "none",
+    boxShadow: "none",
+    zIndex: 1000,
+    display: "flex",
+    flexDirection: "column",
+    padding: "30px 0",
+  },
+
+  panelBody: {
+    flex: 1,
+    padding: "0.75rem 2rem",
+    background: "transparent",
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden",
+    border: "none",
+  },
+
+  openBtn: {
+    position: "absolute",
     right: 20,
     bottom: 20,
     width: 48,
@@ -177,6 +152,7 @@ header: {
     cursor: "pointer",
     zIndex: 1100,
   },
+
   body: {
     flex: 1,
     display: "flex",
@@ -185,56 +161,55 @@ header: {
   avatarContainer: {
     flex: 1,
     position: "relative",
-    borderBottom: "1px solid #eee",
+    borderBottom: "none",
   },
-talkHint: {
-  position: "absolute",
-  bottom: 12,
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 5,
-},
+  talkHint: {
+    position: "absolute",
+    bottom: 12,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 5,
+  },
+  talkBox: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    borderRadius: 30,
+    padding: "6px 12px",
+    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+    transition: "background-color 0.3s ease",
+  },
 
-talkBox: {
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-  borderRadius: 30,
-  padding: "6px 12px",
-  boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
-  transition: "background-color 0.3s ease",
-},
+  micWrapper: {
+    width: 24,
+    height: 24,
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#e74c3c",
+  },
 
-micWrapper: {
-  width: 24,
-  height: 24,
-  borderRadius: "50%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: "#e74c3c", // mic background
-},
+  micInActive: {
+    color: "#fff",
+    fontSize: "14px",
+  },
 
-micInActive: {
-  color: "#fff",
-  fontSize: "14px",
-},
+  micActive: {
+    color: "#fff",
+    fontSize: "14px",
+    animation: "pulse 1s infinite",
+  },
 
-micActive: {
-  color: "#fff",
-  fontSize: "14px",
-  animation: "pulse 1s infinite",
-},
-
-talkText: {
-  fontSize: "0.85rem",
-  color: "#fff",
-},
-chatContainer: {
-    flex: 1.8,
+  talkText: {
+    fontSize: "0.85rem",
+    color: "#fff",
+  },
+  chatContainer: {
+    flex: 2.8,
     paddingLeft: "8px",
-    background: "#fafafa", 
+    background: "transparent",
   },
 };

@@ -36,8 +36,6 @@ export const Experience = ({ client }) => {
         <Physics gravity={gravity}>
           <ConvaiFPS />
           <Anita client={client} />
-          <Sky />
-          <Grid followCamera infiniteGrid fadeDistance={50} />
           <RigidBody type="fixed">
             <CuboidCollider args={[5, 5, 0.1]} position={[0, 1.5, -3]} />
             <CuboidCollider
@@ -63,7 +61,6 @@ export const Experience = ({ client }) => {
           </RigidBody>
         </Physics>
       </Suspense>
-      <ContactShadows opacity={0.7} />
     </>
   );
 };
