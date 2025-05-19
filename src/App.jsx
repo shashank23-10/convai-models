@@ -65,7 +65,6 @@ export default function App() {
               <div style={styles.body}>
                 {/* 3D Canvas */}
                 <div style={styles.avatarContainer}>
-                  <Loader />
                   <Canvas
                     style={{ width: "100%", height: "100%", background: "transparent" }}
                     shadows
@@ -165,7 +164,7 @@ backgroundImage: `url(${backgroundImg})`,
   },
   talkHint: {
     position: "absolute",
-    bottom: 12,
+    bottom: 4,
     width: "100%",
     display: "flex",
     justifyContent: "center",
